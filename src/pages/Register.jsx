@@ -1,8 +1,9 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import style from './Auth.module.css';
 import { useState } from 'react';
 
 export function Register() {
+    const navigate = useNavigate();
     const [username, setUsername] = useState('');
     const [usernameErr, setUsernameErr] = useState('');
     const [usernameValid, setUsernameValid] = useState(false);
@@ -106,6 +107,9 @@ export function Register() {
                     if (item.input === 'password') {
                         setPassErr(item.msg);
                     }
+                }
+                if (data.status === 'ok') {
+                    return navigate('/login');
                 }
                 }
             })
