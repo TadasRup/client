@@ -1,8 +1,10 @@
 import { Link, useNavigate } from 'react-router-dom';
 import style from './Auth.module.css';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
+import { UserContext } from '../context/UserContext';
 
 export function Login() {
+    const ctx = useContext(UserContext);
     const navigate = useNavigate();
     const [formErr, setFormErr] = useState('');
     const [email, setEmail] = useState('');
@@ -47,10 +49,11 @@ export function Login() {
         }).then(res => res.json())
             .then(data => {
                 if (data.status === 'err') {
-                    setFormErr(data.msg)
+                    setFormErr(data.msg);
                 }
                 if (data.status === 'ok') {
-                    navigate('/dashboard')
+                    ctx.loginUser();
+                    navigate('/dashboard');
                 }
             })
             .catch(err => console.error(err));
@@ -71,14 +74,14 @@ export function Login() {
                 }
 
                 <div className="form-floating mb-3">
-                <input onChange={e => setEmail(e.target.value)} onBlur={isValidEmail}
+                    <input onChange={e => setEmail(e.target.value)} onBlur={isValidEmail}
                         type="email" id="email" value={email}
                         className={`form-control ${emailErr ? 'is-invalid' : ''}`} />
                     <label htmlFor="email">Email address</label>
                     <div className="invalid-feedback">{emailErr}</div>
                 </div>
                 <div className="form-floating mb-3">
-                <input onChange={e => setPass(e.target.value)} onBlur={isValidPass}
+                    <input onChange={e => setPass(e.target.value)} onBlur={isValidPass}
                         type="password" id="password" value={pass}
                         className={`form-control ${passErr ? 'is-invalid' : ''}`} />
                     <label htmlFor="password">Password</label>
