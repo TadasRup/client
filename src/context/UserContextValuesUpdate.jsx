@@ -6,10 +6,10 @@ export function UserContextValuesUpdate(props) {
 
     useEffect(() => {
 
-
         fetch('http://localhost:3001/api/login', {
             method: 'GET',
             credentials: 'include',
+            
         })
         .then(res => {
             if (res.ok) {
@@ -17,7 +17,7 @@ export function UserContextValuesUpdate(props) {
             }
          })
             .catch(err => console.error(err));
-    }, []);
+    }, [ctx]);
 
     return <div>{props.children}</div>;
 }
